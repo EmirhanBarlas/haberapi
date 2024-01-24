@@ -1,12 +1,11 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-import json
 
 try:
     # Haber sitesinden veri çekme
-    response = requests.get("https://www.haberturk.com/gundem/")
-    response.raise_for_status()  # Check for any HTTP errors
+    response = requests.get("https://www.ntv.com.tr/galeri/teknoloji/bir-ilki-basardi-playstation-5in-tablet-surumu-gelistirildi,_hgscsgymUGWKz-tIH019g")
+    response.raise_for_status() 
 
     data = response.text
 
@@ -15,8 +14,11 @@ try:
     title_tag = soup.find("h1", class_="ht-title")
     description_tag = soup.find("p", class_="ht-description")
 
-    title = title_tag.text if title_tag else "Title not found"
-    description = description_tag.text if description_tag else "Description not found"
+    if title_tag and description_tag:
+        title = title_tag.text.strip()
+        description = description_tag.text.strip()
+    else:
+        raise ValueError("Title or description not found")
 
     # Discord webhook URL'si
     webhook_url = "https://discord.com/api/webhooks/1199755923321802764/-c3jfIB0-SiEjOKhEHM-UUb5QWpRFknHZrGjPphhPoAkkPZZ_327j15kCcHZhpD5PsBs"
